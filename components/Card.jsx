@@ -1,22 +1,30 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import colors from "../design/colors";
 
-export default function Card() {
+export default function Card({concluido=false, texto='', fnConcluir= () => false, fnExcluir= () => false}) {
+
+    let styles = stylesAtivo
+
+    if (concluido) {
+        styles = stylesConcluido
+    }
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.btnCheck} onPress={() => alert("Crie tarefa")}>
+            <TouchableOpacity style={styles.btnCheck} onPress={fnConcluir}>
+                {concluido && <Image style={styles.icon} source={require("../assets/check.png")} />}
             </TouchableOpacity>
 
-            <Text style={styles.texto} >FAJOIOÇF</Text>
+            <Text style={styles.texto} >{texto}</Text>
 
-            <TouchableOpacity onPress={() => alert("Excloi tarefa")}>
+            <TouchableOpacity onPress={fnExcluir}>
                 <Image style={styles.lixo} source={require('../assets/lixo.png')}/>
             </TouchableOpacity>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const stylesAtivo = StyleSheet.create({
     container: {
         backgroundColor: colors.gray_330,
         borderRadius: 10,
@@ -33,7 +41,7 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderRadius: 50,
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: colors.purple_base,
     },
     texto: {
@@ -45,4 +53,43 @@ const styles = StyleSheet.create({
         width: 30,
         resizeMode: "contain",
     },
+})
+
+const stylesConcluido = StyleSheet.create({
+    container: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: colors.gray_200,
+        padding: 10,
+        marginHorizontal: 20,
+        marginVertical: 10,
+        gap: 10,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    btnCheck: {
+        width: 30,
+        height: 30,
+        borderRadius: 50,
+        borderWidth: 4,
+        borderColor: colors.green_base,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    texto: {
+        color: colors.gray_500,
+        fontSize: 18,
+        width: "77%",
+        textDecorationLine: "line-through"
+    },
+    lixo: {
+        width: 30,
+        resizeMode: "contain",
+    },
+    icon: {
+        width: 30,
+        height: 30,
+        resizeMode: "contain",
+    }
 })
